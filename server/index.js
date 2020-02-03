@@ -1,6 +1,6 @@
 import Koa from 'koa'
-import devConfig from './develop.config'
-import proConfig from './product.config'
+import devConfig from './config/develop.config'
+import proConfig from './config/product.config'
 const config = process.env.NODE_ENV === 'development' ? devConfig : proConfig
 
 const app = new Koa();
