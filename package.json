@@ -15,6 +15,7 @@
   "dependencies": {
     "antd": "^3.26.7",
     "koa": "^2.11.0",
+    "koa-router": "^8.0.6",
     "koa-static": "^5.0.0",
     "koa-webpack": "^5.2.5",
     "react": "^16.12.0",

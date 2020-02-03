@@ -1,6 +1,6 @@
 import koaWebpack from 'koa-webpack'
 import webpack from 'webpack'
-import config from '../webpack.config'
+import config from '../../webpack.config'
 
 const options = {
   devMiddleware: {

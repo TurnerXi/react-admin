@@ -1,7 +1,7 @@
 import serve from 'koa-static'
 import path from 'path'
 import webpack from 'webpack'
-import config from '../webpack.config'
+import config from '../../webpack.config'
 export default {
   init() {
     setTimeout(function () {

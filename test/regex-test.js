@@ -1,0 +1,1 @@
+console.log('abc'.match(/^ab$/))
