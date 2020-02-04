@@ -1,7 +1,8 @@
 import koaWebpack from 'koa-webpack'
 import webpack from 'webpack'
-import config from '../../webpack.config'
+import pathConf from '../../path.config'
 
+const webpackConf = require(pathConf.webpackConfPath)
 const options = {
   devMiddleware: {
     publicPath: '/',
@@ -10,11 +11,11 @@ const options = {
   hotClient: {
     logLevel: 'silent'
   }
-};
+}
 
 export default {
   middlewares() {
-    const compiler = webpack(config)
+    const compiler = webpack(webpackConf)
     compiler.hooks.done.tap('load-resource', (stats) => {
       if (stats.hasErrors()) {
         console.log(stats.toString({ all: false, errors: true, colors: true }));

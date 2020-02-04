@@ -1,4 +1,5 @@
 var path = require('path')
+var pathConf = require('./path.config')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -9,7 +10,7 @@ module.exports = {
   mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   entry: [path.resolve(__dirname, './client/index.js')],
   output: {
-    path: path.resolve(__dirname, 'webapp'),
+    path: pathConf.distPath,
     filename: 'bundle.js'
   },
   resolve: {
@@ -22,7 +23,7 @@ module.exports = {
       {
         test: /\.(js|mjs|jsx|ts)$/,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: ['babel-loader', 'eslint-loader']
       },
       {
         test: /\.(css|less|sass)$/,
@@ -31,12 +32,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: 'static/index.html' }),
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, './static'),
-      ignore: ['index.html'],
-      to: 'public'
-    }]),
+    new HtmlWebpackPlugin({ template: pathConf.template }),
+    new CopyWebpackPlugin([pathConf.staticPath]),
     new ProgressBarPlugin({
       width: 100
     }),
