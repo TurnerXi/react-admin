@@ -1,20 +1,37 @@
-html,
-body {
-  width: 100%;
+@import url('./reset.css');
+@import url(',/utils.css');
+
+.o-layout {
   height: 100%;
+  width: 100%;
 }
 
-body {
-  margin: 0;
+.o-layout__logo {
+  height: 32px;
+  margin: 16px;
+  background-color: #fff;
+  opacity: 0.2;
+}
+
+.o-layout__header {
+  background-color: #fff;
   padding: 0;
 }
 
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.o-layout__trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
 }
 
-#app {
-  height: 100%;
+.o-layout__trigger:hover {
+  color: #1890ff;
+}
+
+.o-layout__content {
+  margin: 24px 16px;
+  padding: 24px;
+  background-color: #fff;
 }

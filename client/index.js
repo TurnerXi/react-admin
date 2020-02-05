@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import store from '@/store';
-import Login from './pages/login';
-import NotFound from './pages/common/404';
-import Routes from './routes';
+import MainLayout from './layout/main';
+import LoginLayout from './layout/login';
+import NotFoundLayout from './layout/404';
 import './assets/css/index.css';
 
 class App extends React.Component {
@@ -15,9 +15,9 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/app/home" push />} />
-            <Route exact path="/404" component={NotFound} />
-            <Route exact path="/login" component={Login} />
-            <Route path="/" component={Routes} />
+            <Route exact path="/404" component={NotFoundLayout} />
+            <Route exact path="/login" component={LoginLayout} />
+            <Route path="/" component={MainLayout} />
           </Switch>
         </Router>
       </Provider>
