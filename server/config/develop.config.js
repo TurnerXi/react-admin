@@ -1,8 +1,10 @@
-import koaWebpack from 'koa-webpack'
-import webpack from 'webpack'
-import pathConf from '../../path.config'
+import koaWebpack from 'koa-webpack';
+import webpack from 'webpack';
+import pathConf from '../../path.config';
 
-const webpackConf = require(pathConf.webpackConfPath)
+// eslint-disable-next-line import/no-dynamic-require
+const webpackConf = require(pathConf.webpackConfPath);
+
 const options = {
   devMiddleware: {
     publicPath: '/',
@@ -11,18 +13,16 @@ const options = {
   hotClient: {
     logLevel: 'silent'
   }
-}
+};
 
 export default {
   middlewares() {
-    const compiler = webpack(webpackConf)
-    compiler.hooks.done.tap('load-resource', (stats) => {
+    const compiler = webpack(webpackConf);
+    compiler.hooks.done.tap('load-resource', stats => {
       if (stats.hasErrors()) {
         console.log(stats.toString({ all: false, errors: true, colors: true }));
       }
-    })
-    return [
-      koaWebpack({ compiler, ...options })
-    ]
+    });
+    return [koaWebpack({ compiler, ...options })];
   }
-}
+};

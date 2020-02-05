@@ -1,9 +1,19 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import Login from '@/assets/components/Login';
+import UserAction from '@/store/actions/user';
 
-export default class Login extends React.Component {
-  render() {
-    return (
-      <div>Login page</div>
-    );
-  }
-}
+const mapStateToProps = state => {
+  return {
+    isLogin: state.user.isLogin
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit() {
+      dispatch(UserAction.userLogin());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
