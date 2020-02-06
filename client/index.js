@@ -14,7 +14,7 @@ class App extends React.Component {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/app/home" push />} />
+            <Route exact path="/" render={() => <Redirect to="/home" push />} />
             <Route exact path="/404" component={NotFoundLayout} />
             <Route exact path="/login" component={LoginLayout} />
             <Route path="/" component={MainLayout} />

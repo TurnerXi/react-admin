@@ -1,9 +1,9 @@
 import request from '@/utils/request';
 
-function listMenus() {
+function list() {
   return request.get('/api/menu/list');
 }
 
 export default {
-  listMenus
+  list,
 };
