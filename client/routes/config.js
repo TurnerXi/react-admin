@@ -8,7 +8,7 @@ export const constantRoutes = [
   {
     path: '/intro',
     component: '/intro',
-    icon: 'home',
+    icon: 'select',
     title: '引导页',
   },
 ];

@@ -1,14 +1,22 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import DocumentTitle from 'react-document-title';
 
-export default function Routes(props = { routes: [] }) {
-  const { routes } = props;
+export default function Routes(props = { routes: [], titleSuffix: '' }) {
+  const { routes, titleSuffix } = props;
   return (
     <Switch>
       {routes.map(item => {
         const Component = resolveComponent(item.component);
-        return <Route exact key={item.path} path={item.path} component={Component} />;
+        return (
+          <Route
+            exact
+            key={item.path || item.title}
+            path={item.path}
+            render={() => <Component title={item.title + ' - ' + titleSuffix} />}
+          />
+        );
       })}
       <Route render={() => <Redirect to="/404" />} />
     </Switch>
@@ -27,6 +35,14 @@ function resolveComponent(path) {
         return <div>Loading...</div>;
       }
       return null;
+    },
+    render(loaded, props) {
+      let Component = loaded.default;
+      return (
+        <DocumentTitle title={props.title}>
+          <Component {...props} />
+        </DocumentTitle>
+      );
     },
     pastDelay: 200,
   });

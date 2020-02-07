@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Icon } from 'antd';
 import { MenuList, RouteList } from '@/routes';
+import config from '@/config';
 
 export default class MainLayout extends React.Component {
   constructor() {
@@ -43,7 +44,7 @@ export default class MainLayout extends React.Component {
           </Header>
           <Content className="o-layout__content">
             <div data-step="3" data-intro="This is main Content" data-position="top">
-              <RouteList />
+              <RouteList titleSuffix={config.documentTitleSuffix} />
             </div>
           </Content>
         </Layout>
