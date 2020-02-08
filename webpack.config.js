@@ -13,6 +13,14 @@ module.exports = {
     path: pathConf.distPath,
     filename: 'bundle.js',
   },
+  devServer: {
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'client'),

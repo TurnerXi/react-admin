@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node -r esm server",
-    "dev": "cross-env NODE_ENV=development nodemon -r esm server",
+    "build": "webpack",
+    "dev": "cross-env NODE_ENV=development node -r esm server",
+    "dev:client": "webpack-dev-server --hot",
+    "dev:server": "cross-env SERVER_ONLY=true nodemon --watch server -r esm server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +24,8 @@
     "koa-static": "^5.0.0",
     "koa-webpack": "^5.2.5",
     "koa2-connect-history-api-fallback": "^0.1.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
     "react": "^16.12.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.12.0",

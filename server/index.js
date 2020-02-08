@@ -1,29 +1,24 @@
 import Koa from 'koa';
-import historyApiFallback from 'koa2-connect-history-api-fallback';
-import devConfig from './config/develop.config';
-import proConfig from './config/product.config';
-import routes from './routes';
+import routes from './controller';
+import { historyMiddleware, staticMiddleware, webpackMiddleware } from './middleware';
 
-const config = process.env.NODE_ENV === 'development' ? devConfig : proConfig;
+const isDev = process.env.NODE_ENV === 'development';
+const isServerOnly = process.env.SERVER_ONLY === 'true';
 
-const app = new Koa();
-
-config.init && config.init();
-
-app.use(historyApiFallback({ whiteList: ['/api'] }));
-
-if (config.middlewares) {
-  config.middlewares().forEach(async middleware => {
-    if (middleware instanceof Promise) {
-      app.use(await middleware);
-    } else {
-      app.use(middleware);
-    }
+async function main() {
+  const app = new Koa();
+  app.listen(3000, () => {
+    console.log('listening on 3000');
   });
+
+  app.use(historyMiddleware());
+  if (isDev && !isServerOnly) {
+    app.use(await webpackMiddleware());
+  } else {
+    app.use(staticMiddleware());
+  }
+
+  app.use(routes.routes(), routes.allowedMethods());
 }
 
-app.use(routes.routes(), routes.allowedMethods());
-
-app.listen(3000, () => {
-  console.log('listening on 3000');
-});
+main();

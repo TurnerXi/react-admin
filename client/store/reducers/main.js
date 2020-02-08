@@ -8,7 +8,7 @@ const defaultState = {
 const main = handleActions(
   {
     [MAIN_INIT_ROUTES]: (state, { payload }) => {
-      return { routes: payload };
+      return { routes: payload || [] };
     },
   },
   defaultState
