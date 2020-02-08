@@ -1,9 +1,9 @@
 import KoaRouter from 'koa-router';
-import { list } from '../service/menu';
+import { list, detail } from '../service/menu';
 
 const router = new KoaRouter();
 
-router.get('/list', async ctx => {
+router.get('/tree', async ctx => {
   const data = await list();
   const map = {};
   data.forEach(item => {
@@ -19,6 +19,14 @@ router.get('/list', async ctx => {
       item.children = map[item.id];
       return item;
     });
+});
+
+router.get('/list', async ctx => {
+  ctx.body = await list();
+});
+
+router.get('/:id', async ctx => {
+  ctx.body = await detail(ctx.params.id);
 });
 
 export default router;

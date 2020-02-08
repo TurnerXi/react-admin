@@ -14,7 +14,7 @@ export default function Routes(props = { routes: [], titleSuffix: '' }) {
             exact
             key={item.path || item.title}
             path={item.path}
-            render={() => <Component title={item.title + ' - ' + titleSuffix} />}
+            render={p => <Component {...p} title={item.title + ' - ' + titleSuffix} />}
           />
         );
       })}

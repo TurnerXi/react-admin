@@ -60,7 +60,9 @@
     "react/no-unused-prop-types": [0],
     "prefer-const": [0],
     "no-return-await": [0],
-    "operator-linebreak": [0]
+    "operator-linebreak": [0],
+    "react/destructuring-assignment": [0],
+    "react/jsx-props-no-spreading": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

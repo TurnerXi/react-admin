@@ -9,7 +9,7 @@ export default function Menus(props = { menus: [] }) {
   return (
     <I18nProvider scope="route">
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
-        {menus.map(mapMenuItem)}
+        {menus.filter(item => !item.hidden).map(mapMenuItem)}
       </Menu>
     </I18nProvider>
   );

@@ -12,6 +12,7 @@ module.exports = {
   output: {
     path: pathConf.distPath,
     filename: 'bundle.js',
+    publicPath: '/',
   },
   devServer: {
     historyApiFallback: true,
