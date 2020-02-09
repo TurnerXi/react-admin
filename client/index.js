@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from '@/store';
+import systemActions from '@/store/actions/system';
 import MainLayout from './layout/main';
 import LoginLayout from './layout/login';
 import NotFoundLayout from './layout/404';
@@ -27,4 +28,9 @@ class App extends React.Component {
     );
   }
 }
-ReactDOM.render(<App />, document.getElementById('app'));
+Promise.all([
+  store.dispatch(systemActions.systemInitRoutes()),
+  store.dispatch(systemActions.systemInitLang()),
+]).then(() => {
+  ReactDOM.render(<App />, document.getElementById('app'));
+});

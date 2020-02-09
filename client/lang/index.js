@@ -1,25 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
-import enUS from './locale/en_US';
-import zhCN from './locale/zh_CN';
 
-export default class I18nProvider extends React.Component {
-  constructor() {
-    super();
-    this.state = { lang: 'zh' };
-  }
-
+class I18nProvider extends React.Component {
   render() {
-    const { children, scope } = this.props;
-    const { lang } = this.state;
-    const messages = {
-      en: enUS,
-      zh: zhCN,
-    };
+    const { children, scope, lang, languages } = this.props;
+    const messages = {};
+    languages.forEach(item => {
+      let { code, scope: itemScope, zh } = item;
+      itemScope = itemScope || 'global';
+      if (!messages[itemScope]) {
+        messages[itemScope] = {};
+      }
+      messages[itemScope][code] = item[lang] || zh;
+    });
     return (
-      <IntlProvider locale={lang} messages={messages[lang][scope]}>
+      <IntlProvider locale={lang} messages={messages[scope]}>
         {children}
       </IntlProvider>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { lang: state.system.lang, languages: state.system.languages };
+};
+
+export default connect(mapStateToProps)(I18nProvider);

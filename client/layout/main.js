@@ -26,7 +26,7 @@ export default class MainLayout extends React.Component {
     const { location } = this.props;
     return (
       <Layout className="o-layout">
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed} className="o-layout__sidebar">
           <div className="o-layout__logo" />
           <div data-step="1" data-intro="This is Menu" data-position="right">
             <MenuList location={location} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'antd';
-import { list } from '@/api/menu';
+import MenuAPI from '@/api/menu';
 
 export default class Menu extends React.Component {
   constructor() {
@@ -12,7 +12,7 @@ export default class Menu extends React.Component {
   }
 
   componentDidMount() {
-    list().then(data => {
+    MenuAPI.list().then(data => {
       this.setState({ menus: data });
     });
   }

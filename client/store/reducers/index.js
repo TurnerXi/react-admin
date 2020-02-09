@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import user from './user';
-import main from './main';
+import system from './system';
 
 export default combineReducers({
   user,
-  main,
+  system,
 });

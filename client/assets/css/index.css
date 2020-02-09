@@ -18,6 +18,26 @@
   padding: 0;
 }
 
+.o-layout__sidebar {
+  overflow: auto;
+}
+
+.o-layout__sidebar::-webkit-scrollbar {
+  opacity: 0;
+  width: 8px;
+}
+
+.o-layout__sidebar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgba(225, 225, 225, 0.2);
+}
+
+.o-layout__sidebar::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: rgba(225, 225, 225, 0.2);
+}
+
+
 .o-layout__trigger {
   font-size: 18px;
   line-height: 64px;
@@ -32,6 +52,5 @@
 
 .o-layout__content {
   margin: 24px 16px;
-  padding: 24px;
   background-color: #fff;
 }

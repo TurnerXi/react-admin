@@ -21,12 +21,16 @@ router.get('/tree', async ctx => {
     });
 });
 
-router.get('/list', async ctx => {
+router.get('/', async ctx => {
   ctx.body = await list();
 });
 
 router.get('/:id', async ctx => {
   ctx.body = await detail(ctx.params.id);
+});
+
+router.post('/', async ctx => {
+  ctx.body = ctx.request.body;
 });
 
 export default router;
