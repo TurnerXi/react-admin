@@ -1,7 +1,14 @@
 import { query } from '../common/db';
 
-const list = async () => {
-  return await query('select * from sys_lang order by scope, code');
+const list = async params => {
+  let sql = 'select * from sys_lang where 1=1';
+  const data = [];
+  if (params.scope) {
+    sql += ' and scope in (?)';
+    data.push(params.scope);
+  }
+  sql += ' order by scope, code';
+  return await query(sql, data);
 };
 
 const get = async id => {

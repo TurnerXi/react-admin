@@ -4,7 +4,7 @@ import langService from '../service/lang';
 const router = new KoaRouter();
 
 router.get('/', async ctx => {
-  ctx.body = await langService.list();
+  ctx.body = await langService.list(ctx.query);
 });
 
 router.get('/:id', async ctx => {

@@ -1,10 +1,10 @@
 import KoaRouter from 'koa-router';
-import { list, detail } from '../service/menu';
+import menuService from '../service/menu';
 
 const router = new KoaRouter();
 
 router.get('/tree', async ctx => {
-  const data = await list();
+  const data = await menuService.list();
   const map = {};
   data.forEach(item => {
     if (item.pid !== 0) {
@@ -22,15 +22,26 @@ router.get('/tree', async ctx => {
 });
 
 router.get('/', async ctx => {
-  ctx.body = await list();
+  ctx.body = await menuService.list();
 });
 
 router.get('/:id', async ctx => {
-  ctx.body = await detail(ctx.params.id);
+  ctx.body = await menuService.get(ctx.params.id);
+});
+
+router.put('/', async ctx => {
+  await menuService.create(ctx.request.body);
+  ctx.body = 'success';
 });
 
 router.post('/', async ctx => {
-  ctx.body = ctx.request.body;
+  await menuService.update(ctx.request.body);
+  ctx.body = 'success';
+});
+
+router.delete('/:id', async ctx => {
+  await menuService.remove(ctx.params.id);
+  ctx.body = 'success';
 });
 
 export default router;

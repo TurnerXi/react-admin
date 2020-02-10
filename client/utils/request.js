@@ -1,8 +1,12 @@
 import axios from 'axios';
+import qs from 'qs';
 
 const service = axios.create({
   baseURL: '/api',
   timeout: 5000,
+  paramsSerializer: params => {
+    return qs.stringify(params, { indices: false });
+  },
 });
 
 service.interceptors.request.use(

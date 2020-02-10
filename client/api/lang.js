@@ -1,7 +1,10 @@
 import request from '@/utils/request';
 
-export function list() {
-  return request.get('/lang');
+export function list(params) {
+  console.log(params);
+  return request.get('/lang', {
+    params,
+  });
 }
 
 export function get(id) {
