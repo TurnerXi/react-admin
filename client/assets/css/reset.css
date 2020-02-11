@@ -4,9 +4,17 @@ body {
   height: 100%;
 }
 
-body {
+body,
+ul,
+li {
   margin: 0;
   padding: 0;
+}
+
+ul,
+li {
+  list-style: none;
+  text-decoration: none;
 }
 
 #app {
