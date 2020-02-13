@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Card, Table, Button } from 'antd';
+import { FormattedMessage } from 'react-intl';
 import LangAPI from '@/api/lang';
+import I18nProvider from '@/lang';
 import LangAdd from './add';
 import LangEdit from './edit';
 
@@ -53,7 +55,9 @@ export default class LangList extends Component {
     return (
       <div>
         <Button icon="plus" type="primary" onClick={() => this.handleAction('ADD')}>
-          add
+          <span>
+            <FormattedMessage id="add" />
+          </span>
         </Button>
       </div>
     );
@@ -66,30 +70,51 @@ export default class LangList extends Component {
       value: item,
     }));
     const columns = [
-      { title: 'id', dataIndex: 'id', key: 'id' },
-      { title: 'code', dataIndex: 'code', key: 'code' },
       {
-        title: 'scope',
+        title: <FormattedMessage id="code" />,
+        dataIndex: 'code',
+        key: 'code',
+        width: '15%',
+      },
+      {
+        title: <FormattedMessage id="scope" />,
         dataIndex: 'scope',
         key: 'scope',
+        width: '15%',
         filters: scopeFilter,
       },
-      { title: 'zh', dataIndex: 'zh', key: 'zh' },
-      { title: 'en', dataIndex: 'en', key: 'en' },
       {
-        title: 'action',
+        title: <FormattedMessage id="zh" />,
+        dataIndex: 'zh',
+        key: 'zh',
+        width: '30%',
+        ellipsis: true,
+      },
+      {
+        title: <FormattedMessage id="en" />,
+        dataIndex: 'en',
+        key: 'en',
+        width: '30%',
+        ellipsis: true,
+      },
+      {
+        title: <FormattedMessage id="action" />,
+        width: '10%',
+        align: 'center',
         render: (_, record) => {
           return (
             <div>
-              <Button onClick={() => this.handleAction('EDIT', record)}>edit</Button>
+              <Button onClick={() => this.handleAction('EDIT', record)}>
+                <FormattedMessage id="edit" />
+              </Button>
             </div>
           );
         },
       },
     ];
     return (
-      <div>
-        <Card title="国际化字典">
+      <I18nProvider scope="lang">
+        <Card title={this.props.title}>
           <Table
             dataSource={data}
             columns={columns}
@@ -97,21 +122,23 @@ export default class LangList extends Component {
             title={this.toolBar.bind(this)}
             onChange={this.onChange.bind(this)}
           />
-          <LangEdit
-            title="编辑字典"
-            visible={this.state.handler === 'EDIT'}
-            onCancel={this.resetAction.bind(this)}
-            onSubmit={this.submitAction.bind(this)}
-            data={this.state.handleData}
-          />
-          <LangAdd
-            title="新增字典"
-            visible={this.state.handler === 'ADD'}
-            onCancel={this.resetAction.bind(this)}
-            onSubmit={this.submitAction.bind(this)}
-          />
+          {this.state.handler === 'EDIT' && (
+            <LangEdit
+              title={<FormattedMessage id="edit" />}
+              onCancel={this.resetAction.bind(this)}
+              onSubmit={this.submitAction.bind(this)}
+              data={this.state.handleData}
+            />
+          )}
+          {this.state.handler === 'ADD' && (
+            <LangAdd
+              title={<FormattedMessage id="add" />}
+              onCancel={this.resetAction.bind(this)}
+              onSubmit={this.submitAction.bind(this)}
+            />
+          )}
         </Card>
-      </div>
+      </I18nProvider>
     );
   }
 }

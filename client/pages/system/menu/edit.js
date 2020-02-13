@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Modal, Input, Select, Button, notification } from 'antd';
 import MenuAPI from '@/api/menu';
+import { injectIntl } from 'react-intl';
 
 const { Option } = Select;
 
@@ -43,12 +44,12 @@ class MenuEdit extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { onSubmit } = this.props;
+    const { onSubmit, intl } = this.props;
     const { getFieldsValue } = this.props.form;
     MenuAPI.update(getFieldsValue())
       .then(() => {
         notification.success({
-          message: '修改成功',
+          message: intl.formatMessage({ id: 'editSuccess' }),
         });
         onSubmit && onSubmit(getFieldsValue());
         // this.props.history.goBack();
@@ -61,16 +62,21 @@ class MenuEdit extends React.Component {
   render() {
     const { filter } = this.state;
     const { getFieldDecorator } = this.props.form;
-    const { title, visible, onCancel } = this.props;
+    const {
+      title,
+      visible,
+      onCancel,
+      intl: { formatMessage },
+    } = this.props;
 
     const formItems = {
       id: {
-        label: 'ID',
+        label: formatMessage({ id: 'id' }),
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
       title: {
-        label: 'title',
+        label: formatMessage({ id: 'title' }),
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: (
           <Select showSearch onSearch={this.handleSearch.bind(this)}>
@@ -81,27 +87,27 @@ class MenuEdit extends React.Component {
         ),
       },
       path: {
-        label: 'path',
+        label: formatMessage({ id: 'routePath' }),
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
       component: {
-        label: 'component',
+        label: formatMessage({ id: 'component' }),
         component: <Input />,
       },
       icon: {
-        label: 'icon',
+        label: formatMessage({ id: 'icon' }),
         component: <Input />,
       },
       sort: {
-        label: 'sort',
+        label: formatMessage({ id: 'sort' }),
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
     };
     return (
       <Modal
-        okText="submit"
+        okText={formatMessage({ id: 'submit' })}
         title={title}
         visible={visible}
         onCancel={onCancel}
@@ -111,7 +117,7 @@ class MenuEdit extends React.Component {
           {Object.keys(formItems).map(key => {
             const item = formItems[key];
             return (
-              <Form.Item label={item.label} {...formItemLayout}>
+              <Form.Item key={key} label={item.label} {...formItemLayout}>
                 {getFieldDecorator(key, item.options || {})(item.component)}
               </Form.Item>
             );
@@ -141,5 +147,5 @@ export default connect(mapStateToProps)(
       });
       return defaultValues;
     },
-  })(MenuEdit)
+  })(injectIntl(MenuEdit))
 );

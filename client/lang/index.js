@@ -4,8 +4,10 @@ import { IntlProvider } from 'react-intl';
 
 class I18nProvider extends React.Component {
   render() {
-    const { children, scope, lang, languages } = this.props;
-    const messages = {};
+    const { children, scope = 'global', lang, languages } = this.props;
+    const messages = {
+      global: {},
+    };
     languages.forEach(item => {
       let { code, scope: itemScope, zh } = item;
       itemScope = itemScope || 'global';
@@ -15,7 +17,7 @@ class I18nProvider extends React.Component {
       messages[itemScope][code] = item[lang] || zh;
     });
     return (
-      <IntlProvider locale={lang} messages={messages[scope]}>
+      <IntlProvider locale={lang} messages={{ ...messages['global'], ...messages[scope] }}>
         {children}
       </IntlProvider>
     );

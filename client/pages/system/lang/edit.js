@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { Form, Modal, Input, notification } from 'antd';
 import LangAPI from '@/api/lang';
+import { FormattedMessage, injectIntl } from 'react-intl';
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 4 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 20 },
+  },
+};
 
 class LangEdit extends Component {
   onSubmit(e) {
     e.preventDefault();
-    const { onSubmit } = this.props;
+    const { onSubmit, intl } = this.props;
     const { getFieldsValue } = this.props.form;
     LangAPI.update(getFieldsValue())
       .then(() => {
         notification.success({
-          message: '新增成功',
+          message: intl.formatMessage({ id: 'editSuccess' }),
         });
         onSubmit && onSubmit(getFieldsValue());
       })
@@ -22,32 +34,35 @@ class LangEdit extends Component {
   render() {
     const { Item: FormItem } = Form;
     const { getFieldDecorator } = this.props.form;
-    const { title, visible, onCancel } = this.props;
+    const { title, onCancel } = this.props;
     return (
       <Modal
-        okText="submit"
+        visible
+        okText={<FormattedMessage id="submit" />}
         title={title}
-        visible={visible}
         onCancel={onCancel}
         onOk={this.onSubmit.bind(this)}
       >
-        <Form>
-          <FormItem label="code">
+        <Form {...formItemLayout}>
+          <FormItem label={<FormattedMessage id="id" />} style={{ display: 'none' }}>
+            {getFieldDecorator('id', {})(<Input />)}
+          </FormItem>
+          <FormItem label={<FormattedMessage id="code" />}>
             {getFieldDecorator('code', {
               rules: [{ required: true, message: 'codeCannotBeNull' }],
             })(<Input />)}
           </FormItem>
-          <FormItem label="scope">
+          <FormItem label={<FormattedMessage id="scope" />}>
             {getFieldDecorator('scope', {
               rules: [{ required: true, message: 'codeCannotBeNull' }],
             })(<Input />)}
           </FormItem>
-          <FormItem label="zh">
+          <FormItem label={<FormattedMessage id="zh" />}>
             {getFieldDecorator('zh', {
               rules: [{ required: true, message: 'codeCannotBeNull' }],
             })(<Input />)}
           </FormItem>
-          <FormItem label="en">
+          <FormItem label={<FormattedMessage id="en" />}>
             {getFieldDecorator('en', {
               rules: [{ required: true, message: 'codeCannotBeNull' }],
             })(<Input />)}
@@ -71,4 +86,4 @@ export default Form.create({
       });
     return defaultValues;
   },
-})(LangEdit);
+})(injectIntl(LangEdit));

@@ -2,24 +2,32 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
+import { FormattedMessage } from 'react-intl';
+import I18nProvider from '@/lang';
 
 export default function Routes(props = { routes: [], titleSuffix: '' }) {
   const { routes, titleSuffix } = props;
   return (
-    <Switch>
-      {routes.map(item => {
-        const Component = resolveComponent(item.component);
-        return (
-          <Route
-            exact
-            key={item.path || item.title}
-            path={item.path}
-            render={p => <Component {...p} title={item.title + ' - ' + titleSuffix} />}
-          />
-        );
-      })}
-      <Route render={() => <Redirect to="/404" />} />
-    </Switch>
+    <I18nProvider scope="route">
+      <Switch>
+        {routes.map(item => {
+          const Component = resolveComponent(item.component);
+          return (
+            <Route
+              exact
+              key={item.path || item.title}
+              path={item.path}
+              render={p => (
+                <FormattedMessage id={item.title}>
+                  {msg => <Component {...p} title={msg} titleSuffix={titleSuffix} />}
+                </FormattedMessage>
+              )}
+            />
+          );
+        })}
+        <Route render={() => <Redirect to="/404" />} />
+      </Switch>
+    </I18nProvider>
   );
 }
 
@@ -39,7 +47,7 @@ function resolveComponent(path) {
     render(loaded, props) {
       let Component = loaded.default;
       return (
-        <DocumentTitle title={props.title}>
+        <DocumentTitle title={props.title + ' - ' + props.titleSuffix}>
           <Component {...props} />
         </DocumentTitle>
       );

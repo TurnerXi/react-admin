@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import { Form, Modal, Input, notification } from 'antd';
 import LangAPI from '@/api/lang';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 4 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 },
+    sm: { span: 20 },
   },
 };
 
 class LangAdd extends Component {
   onSubmit(e) {
     e.preventDefault();
-    const { onSubmit } = this.props;
+    const { onSubmit, intl } = this.props;
     const { getFieldsValue } = this.props.form;
     LangAPI.create(getFieldsValue())
       .then(() => {
         notification.success({
-          message: '新增成功',
+          message: intl.formatMessage({ id: 'addSuccess' }),
         });
         onSubmit && onSubmit(getFieldsValue());
       })
@@ -32,33 +33,33 @@ class LangAdd extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { title, visible, onCancel } = this.props;
+    const { title, onCancel } = this.props;
 
     const formItems = {
       code: {
-        label: 'code',
+        label: <FormattedMessage id="code" />,
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
       scope: {
-        label: 'scope',
+        label: <FormattedMessage id="scope" />,
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
       zh: {
-        label: 'zh',
+        label: <FormattedMessage id="zh" />,
         component: <Input />,
       },
       en: {
-        label: 'en',
+        label: <FormattedMessage id="en" />,
         component: <Input />,
       },
     };
     return (
       <Modal
-        okText="submit"
+        visible
+        okText={<FormattedMessage id="submit" />}
         title={title}
-        visible={visible}
         onCancel={onCancel}
         onOk={this.onSubmit.bind(this)}
       >
@@ -66,7 +67,7 @@ class LangAdd extends Component {
           {Object.keys(formItems).map(key => {
             const item = formItems[key];
             return (
-              <Form.Item label={item.label} {...formItemLayout}>
+              <Form.Item key={key} label={item.label} {...formItemLayout}>
                 {getFieldDecorator(key, item.options || {})(item.component)}
               </Form.Item>
             );
@@ -79,4 +80,4 @@ class LangAdd extends Component {
 
 export default Form.create({
   name: 'langAddForm',
-})(LangAdd);
+})(injectIntl(LangAdd));

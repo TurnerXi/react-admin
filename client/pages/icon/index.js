@@ -166,7 +166,7 @@ export default class IconPage extends Component {
         return;
       }
       return (
-        <div>
+        <div key={type}>
           <h3 style={{ margin: '28px 0 10px' }}>
             <FormattedMessage id={type} />
           </h3>
@@ -179,7 +179,9 @@ export default class IconPage extends Component {
               ) {
                 return;
               }
-              return <IconItem {...{ type: name.trim(), theme, onSelect: this.onSelect }} />;
+              return (
+                <IconItem key={name} {...{ type: name.trim(), theme, onSelect: this.onSelect }} />
+              );
             })}
           </ul>
         </div>
@@ -211,11 +213,13 @@ export default class IconPage extends Component {
           </div>
           <div>{iconList}</div>
         </Card>
-        <IconDetail
-          type={selected}
-          theme={theme}
-          onCancel={() => this.setState({ selected: null })}
-        />
+        {selected && (
+          <IconDetail
+            type={selected}
+            theme={theme}
+            onCancel={() => this.setState({ selected: null })}
+          />
+        )}
       </I18nProvider>
     );
   }
