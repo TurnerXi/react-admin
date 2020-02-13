@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Icon, Card, Radio, Input } from 'antd';
 import I18nProvider from '@/lang';
 import { FormattedMessage } from 'react-intl';
+import IconDetail from './detail';
 
 const icons = {
   direction: `step-backward,step-forward,fast-backward,fast-forward,shrink,arrows-alt,
@@ -93,23 +94,60 @@ switcher,tablet,tag,tags,tool,thunderbolt,trademark-circle,trophy,unlock,usb,vid
 wallet,ci,copyright,dollar,euro,gold`.replace(/\s/g, '');
 
 class IconItem extends Component {
+  constructor() {
+    super();
+    this.state = {
+      blockStyle: {},
+      iconStyle: {},
+    };
+  }
+
+  onMouseEnter() {
+    this.setState({
+      blockStyle: { color: '#fff', backgroundColor: '#1890ff' },
+      iconStyle: { transform: 'scale(1.4)' },
+    });
+  }
+
+  onMouseLeave() {
+    this.setState({ blockStyle: null, iconStyle: null });
+  }
+
   render() {
-    return <Icon {...this.props} style={{ fontSize: 32, marginTop: 10, marginBottom: 8 }} />;
+    const { type, theme, onSelect } = this.props;
+    return (
+      <li
+        role="presentation"
+        className="c-icon-list__wrapper"
+        style={this.state.blockStyle}
+        onClick={() => onSelect(type)}
+      >
+        <Icon
+          className="c-icon-list_icon"
+          type={type}
+          theme={theme}
+          style={this.state.iconStyle}
+          onMouseEnter={this.onMouseEnter.bind(this)}
+          onMouseLeave={this.onMouseLeave.bind(this)}
+        />
+        <span>{this.props.type}</span>
+      </li>
+    );
   }
 }
 
 export default class IconPage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      theme: 'outlined',
-      color: '',
-      twoToneColor: '',
-      filter: '',
-    };
-  }
+  state = {
+    theme: 'outlined',
+    filter: '',
+    selected: '',
+  };
 
-  onFilterChange() {
+  onSelect = selected => {
+    this.setState({ selected });
+  };
+
+  onFilterChange = () => {
     let timer = null;
     return e => {
       const { value } = e.target;
@@ -118,10 +156,10 @@ export default class IconPage extends Component {
         this.setState({ filter: value });
       }, 500);
     };
-  }
+  };
 
   render() {
-    const { theme, color, twoToneColor, filter } = this.state;
+    const { theme, filter, selected } = this.state;
 
     const iconList = Object.keys(icons).map(type => {
       if (filter && icons[type].indexOf(filter) === -1) {
@@ -141,12 +179,7 @@ export default class IconPage extends Component {
               ) {
                 return;
               }
-              return (
-                <li className="c-icon-list__wrapper">
-                  <IconItem {...{ type: name.trim(), theme, color, twoToneColor }} />
-                  <span>{name}</span>
-                </li>
-              );
+              return <IconItem {...{ type: name.trim(), theme, onSelect: this.onSelect }} />;
             })}
           </ul>
         </div>
@@ -166,7 +199,7 @@ export default class IconPage extends Component {
                   <FormattedMessage id="filled" />
                 </Radio.Button>
                 <Radio.Button value="twoTone">
-                  <FormattedMessage id="twotone" />
+                  <FormattedMessage id="twoTone" />
                 </Radio.Button>
               </Radio.Group>
             </div>
@@ -178,6 +211,11 @@ export default class IconPage extends Component {
           </div>
           <div>{iconList}</div>
         </Card>
+        <IconDetail
+          type={selected}
+          theme={theme}
+          onCancel={() => this.setState({ selected: null })}
+        />
       </I18nProvider>
     );
   }

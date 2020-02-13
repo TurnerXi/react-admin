@@ -1,7 +1,6 @@
 import request from '@/utils/request';
 
 export function list(params) {
-  console.log(params);
   return request.get('/lang', {
     params,
   });

@@ -1,0 +1,28 @@
+.c-color-picker__wrapper {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+}
+
+.c-color-picker__btn {
+  position: relative;
+  display: inline-block;
+  margin-right: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background-color: #000;
+  top: -0.09em;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: none;
+  cursor: pointer;
+}
+
+.c-color-picker__picker {
+  position: absolute;
+  width: 170px;
+  transform: translateX(-77.5px);
+  z-index: 999;
+}

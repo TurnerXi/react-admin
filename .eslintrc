@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": "eslint-config-react-app",
   "rules": {
     "generator-star-spacing": [0],
     "consistent-return": [0],
@@ -62,7 +62,8 @@
     "no-return-await": [0],
     "operator-linebreak": [0],
     "react/destructuring-assignment": [0],
-    "react/jsx-props-no-spreading": [0]
+    "react/jsx-props-no-spreading": [0],
+    "react/state-in-constructor": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {
