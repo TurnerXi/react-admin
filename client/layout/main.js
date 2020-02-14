@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Icon } from 'antd';
-import { MenuList, RouteList } from '@/routes';
+import { MenuList, RouteList, Breadcrumbs } from '@/routes';
 import config from '@/config';
 
 export default class MainLayout extends React.Component {
@@ -41,6 +41,7 @@ export default class MainLayout extends React.Component {
                 onClick={this.toggle.bind(this)}
               />
             </div>
+            <Breadcrumbs location={location} />
           </Header>
           <Content className="o-layout__content">
             <div data-step="3" data-intro="This is main Content" data-position="top">

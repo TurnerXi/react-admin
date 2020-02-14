@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const postcssNormalize = require('postcss-normalize');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // let { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
@@ -290,6 +291,12 @@ module.exports = smp.wrap({
   plugins: [
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({ template: pathConf.template }),
+    new CopyWebpackPlugin([
+      {
+        from: resolve('public'),
+        to: './public',
+      },
+    ]),
     new ModuleNotFoundPlugin(resolve('client')),
     new webpack.HotModuleReplacementPlugin(),
     new WatchMissingNodeModulesPlugin(resolve('node_modules')),

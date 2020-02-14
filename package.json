@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tinymce/tinymce-react": "^3.4.0",
     "antd": "^3.26.7",
     "axios": "^0.19.2",
     "copy-to-clipboard": "^3.2.1",
@@ -43,7 +44,8 @@
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-persist": "^6.0.0",
-    "redux-promise": "^0.6.0"
+    "redux-promise": "^0.6.0",
+    "tinymce": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",
