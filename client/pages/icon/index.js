@@ -161,32 +161,41 @@ export default class IconPage extends Component {
   render() {
     const { theme, filter, selected } = this.state;
 
-    const iconList = Object.keys(icons).map(type => {
-      if (filter && icons[type].indexOf(filter) === -1) {
-        return;
-      }
-      return (
-        <div key={type}>
-          <h3 style={{ margin: '28px 0 10px' }}>
-            <FormattedMessage id={type} />
-          </h3>
-          <ul className="c-icon-list">
-            {icons[type].split(',').map(name => {
-              if (
-                (filter && name.indexOf(filter) === -1) ||
-                (theme === 'filled' && filleds.split(',').indexOf(name) === -1) ||
-                (theme === 'twoTone' && twoTones.split(',').indexOf(name) === -1)
-              ) {
-                return;
-              }
-              return (
-                <IconItem key={name} {...{ type: name.trim(), theme, onSelect: this.onSelect }} />
-              );
-            })}
-          </ul>
-        </div>
-      );
-    });
+    const iconList = Object.keys(icons)
+      .map(type => {
+        if (filter && icons[type].indexOf(filter) === -1) {
+          return null;
+        }
+        return (
+          <div key={type}>
+            <h3 style={{ margin: '28px 0 10px' }}>
+              <FormattedMessage id={type} />
+            </h3>
+            <ul className="c-icon-list">
+              {icons[type]
+                .split(',')
+                .map(name => {
+                  if (
+                    (filter && name.indexOf(filter) === -1) ||
+                    (theme === 'filled' && filleds.split(',').indexOf(name) === -1) ||
+                    (theme === 'twoTone' && twoTones.split(',').indexOf(name) === -1)
+                  ) {
+                    return null;
+                  } else {
+                    return (
+                      <IconItem
+                        key={name}
+                        {...{ type: name.trim(), theme, onSelect: this.onSelect }}
+                      />
+                    );
+                  }
+                })
+                .filter(Boolean)}
+            </ul>
+          </div>
+        );
+      })
+      .filter(Boolean);
 
     return (
       <I18nProvider scope="icon">
