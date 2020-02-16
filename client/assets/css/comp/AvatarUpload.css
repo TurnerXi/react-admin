@@ -1,0 +1,29 @@
+.c-avatar-upload__cropper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  min-height: 500px;
+}
+
+.c-avatar-upload__circle .ant-upload-select-picture-card {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.c-avatar-upload__circle .ant-upload-select-picture-card>.ant-upload {
+  padding: 0;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.avatarShadow {
+  box-shadow: #cecece 0px 0px 10px 0px;
+}

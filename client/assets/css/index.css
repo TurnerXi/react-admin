@@ -2,6 +2,7 @@
 @import url('./utils.css');
 @import url('./comp/Icon.css');
 @import url('./comp/ColorPicker.css');
+@import url('./comp/SplitPane.css');
 
 .o-layout {
   height: 100%;
