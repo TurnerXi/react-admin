@@ -1,0 +1,15 @@
+.c-upload-drag-icon {
+  color: #40a9ff;
+  font-size: 48px;
+}
+
+.c-upload-drag-text {
+  margin: 0 0 4px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+}
+
+.c-upload-drag-hint {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+}

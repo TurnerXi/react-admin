@@ -57,6 +57,7 @@
 }
 
 .o-layout__content {
+  flex: none;
   margin: 24px 16px;
   background-color: #fff;
 }

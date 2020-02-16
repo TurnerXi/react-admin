@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Table, Button } from 'antd';
+import { Card, Table, Button, Modal } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import LangAPI from '@/api/lang';
 import I18nProvider from '@/lang';
 import LangAdd from './add';
 import LangEdit from './edit';
+import LangDelete from './delete';
 
 export default class LangList extends Component {
   constructor() {
@@ -31,7 +32,10 @@ export default class LangList extends Component {
         ...newData,
       });
     } else if (handler === 'ADD') {
-      dateset.unshift(newData);
+      dateset.unshift({ ...newData, id: +new Date() + Math.random() });
+    } else if (handler === 'DELETE') {
+      const idx = dateset.findIndex(item => item.id === newData.id);
+      dateset.splice(idx, 1);
     }
     this.setState({ data: dateset });
     this.resetAction();
@@ -80,7 +84,7 @@ export default class LangList extends Component {
         title: <FormattedMessage id="scope" />,
         dataIndex: 'scope',
         key: 'scope',
-        width: '15%',
+        width: '12%',
         filters: scopeFilter,
       },
       {
@@ -99,13 +103,16 @@ export default class LangList extends Component {
       },
       {
         title: <FormattedMessage id="action" />,
-        width: '10%',
+        width: '13%',
         align: 'center',
         render: (_, record) => {
           return (
             <div>
               <Button onClick={() => this.handleAction('EDIT', record)}>
                 <FormattedMessage id="edit" />
+              </Button>
+              <Button type="error" onClick={() => this.handleAction('DELETE', record)}>
+                <FormattedMessage id="delete" />
               </Button>
             </div>
           );
@@ -135,6 +142,14 @@ export default class LangList extends Component {
               title={<FormattedMessage id="add" />}
               onCancel={this.resetAction.bind(this)}
               onSubmit={this.submitAction.bind(this)}
+            />
+          )}
+          {this.state.handler === 'DELETE' && (
+            <LangDelete
+              title={<FormattedMessage id="delete" />}
+              onCancel={this.resetAction.bind(this)}
+              onSubmit={this.submitAction.bind(this)}
+              data={this.state.handleData}
             />
           )}
         </Card>
