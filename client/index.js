@@ -21,7 +21,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ConfigProvider locale={lang === 'zh' ? zhCN : enUS}>
+          <ConfigProvider locale={lang === 'zh' ? zhCN : enUS} csp={{ nonce: 'nonce' }}>
             <Router>
               <Switch>
                 <Route exact path="/" render={() => <Redirect to="/home" push />} />
@@ -36,9 +36,6 @@ class App extends React.Component {
     );
   }
 }
-Promise.all([
-  store.dispatch(systemActions.systemInitRoutes()),
-  store.dispatch(systemActions.systemInitLang()),
-]).then(() => {
+Promise.all([store.dispatch(systemActions.systemInitRoutes()), store.dispatch(systemActions.systemInitLang())]).then(() => {
   ReactDOM.render(<App />, document.getElementById('app'));
 });

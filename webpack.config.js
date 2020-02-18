@@ -188,9 +188,7 @@ module.exports = smp.wrap({
               babelrc: false,
               configFile: false,
               compact: false,
-              presets: [
-                [require.resolve('babel-preset-react-app/dependencies'), { helpers: true }],
-              ],
+              presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
               cacheDirectory: true,
               cacheCompression: true,
               cacheIdentifier: getCacheIdentifier('development', [
@@ -298,7 +296,7 @@ module.exports = smp.wrap({
       },
     ]),
     new ModuleNotFoundPlugin(resolve('client')),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new WatchMissingNodeModulesPlugin(resolve('node_modules')),
     new ProgressBarPlugin({
       width: 100,

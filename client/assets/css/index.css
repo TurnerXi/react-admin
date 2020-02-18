@@ -25,7 +25,10 @@
 }
 
 .o-layout__sidebar {
+  position: fixed;
   overflow: auto;
+  top: 0;
+  bottom: 0;
 }
 
 .o-layout__sidebar::-webkit-scrollbar {
@@ -54,6 +57,10 @@
 
 .o-layout__trigger:hover {
   color: #1890ff;
+}
+
+.o-layout__right {
+  margin-left: 200px;
 }
 
 .o-layout__content {

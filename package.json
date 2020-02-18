@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/colors": "^4.0.0-alpha.1",
     "@tinymce/tinymce-react": "^3.4.0",
     "@toast-ui/react-editor": "^1.0.1",
     "antd": "^3.26.7",
@@ -34,6 +35,7 @@
     "koa2-connect-history-api-fallback": "^0.1.2",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
+    "rc-tween-one": "^2.6.8",
     "react": "^16.12.0",
     "react-color": "^2.18.0",
     "react-document-title": "^2.0.3",

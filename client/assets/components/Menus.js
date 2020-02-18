@@ -27,7 +27,9 @@ function mapMenuItem(item) {
       <Menu.Item key={item.path}>
         <Link to={item.path}>
           {item.icon && <Icon type={item.icon} />}
-          <FormattedMessage id={item.title || 'error'} />
+          <span>
+            <FormattedMessage id={item.title || 'error'} />
+          </span>
         </Link>
       </Menu.Item>
     );

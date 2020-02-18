@@ -32,7 +32,7 @@ export default class MainLayout extends React.Component {
             <MenuList location={location} />
           </div>
         </Sider>
-        <Layout>
+        <Layout className="o-layout__right">
           <Header className="o-layout__header">
             <div data-step="2" data-intro="Click to unfold then Menu" data-position="right">
               <Icon
