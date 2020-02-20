@@ -15,9 +15,15 @@ export function detail(id) {
 export function update(data) {
   return request.post('/menu', data);
 }
+
+export function remove(id) {
+  return request.delete(`/menu/${id}`);
+}
+
 export default {
   tree,
   list,
   detail,
   update,
+  remove,
 };

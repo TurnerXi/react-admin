@@ -1,9 +1,16 @@
 import React from 'react';
 import { Table, Card, Button, Icon } from 'antd';
-import MenuAPI from '@/api/menu';
-import MenuEdit from './edit';
-import I18nProvider from '@/lang';
 import { FormattedMessage } from 'react-intl';
+import MenuAPI from '@/api/menu';
+import I18nProvider from '@/lang';
+import MenuEdit from './edit';
+import MenuDelete from './delete';
+
+const styles = {
+  btn: {
+    marginRight: 8,
+  },
+};
 
 export default class Menu extends React.Component {
   constructor() {
@@ -24,16 +31,10 @@ export default class Menu extends React.Component {
   }
 
   submitAction(data) {
-    // const { menus } = this.state;
-    // const dateset = [...menus];
-    // const idx = dateset.findIndex(item => item.id === data.id);
-    // const item = dateset[idx];
-    // dateset.splice(idx, 1, {
-    //   ...item,
-    //   ...data,
-    // });
-    // this.setState({ menus: dateset });
     this.resetAction();
+    MenuAPI.tree().then(data => {
+      this.setState({ menus: data });
+    });
   }
 
   componentDidMount() {
@@ -45,7 +46,12 @@ export default class Menu extends React.Component {
   renderAction(text, record) {
     return (
       <div>
-        <Button onClick={() => this.handleAction('EDIT', record)}>编辑</Button>
+        <Button type="primary" style={styles.btn} onClick={() => this.handleAction('EDIT', record)}>
+          <FormattedMessage id="edit" />
+        </Button>
+        <Button type="danger" style={styles.btn} onClick={() => this.handleAction('DELETE', record)}>
+          <FormattedMessage id="delete" />
+        </Button>
       </div>
     );
   }
@@ -55,13 +61,7 @@ export default class Menu extends React.Component {
     return (
       <I18nProvider scope="route">
         <Card title={<FormattedMessage id="menuTitle" />}>
-          <Table
-            dataSource={menus}
-            bordered
-            size="middle"
-            pagination={{ pageSize: 100 }}
-            rowKey="id"
-          >
+          <Table dataSource={menus} bordered size="middle" pagination={{ pageSize: 100 }} rowKey="id">
             <Table.Column
               title={
                 <div style={{ textAlign: 'center' }}>
@@ -91,13 +91,24 @@ export default class Menu extends React.Component {
               render={this.renderAction.bind(this)}
             />
           </Table>
-          <MenuEdit
-            title={<FormattedMessage id="menuEdit" />}
-            visible={this.state.handler === 'EDIT'}
-            onCancel={this.resetAction.bind(this)}
-            onSubmit={this.submitAction.bind(this)}
-            data={this.state.handleData}
-          />
+          {this.state.handler === 'EDIT' && (
+            <MenuEdit
+              title={<FormattedMessage id="edit" />}
+              visible={this.state.handler === 'EDIT'}
+              onCancel={this.resetAction.bind(this)}
+              onSubmit={this.submitAction.bind(this)}
+              data={this.state.handleData}
+            />
+          )}
+
+          {this.state.handler === 'DELETE' && (
+            <MenuDelete
+              title={<FormattedMessage id="delete" />}
+              onCancel={this.resetAction.bind(this)}
+              onSubmit={this.submitAction.bind(this)}
+              data={this.state.handleData}
+            />
+          )}
         </Card>
       </I18nProvider>
     );

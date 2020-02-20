@@ -7,6 +7,12 @@ import LangAdd from './add';
 import LangEdit from './edit';
 import LangDelete from './delete';
 
+const styles = {
+  btn: {
+    marginRight: 8,
+  },
+};
+
 export default class LangList extends Component {
   constructor() {
     super();
@@ -103,15 +109,15 @@ export default class LangList extends Component {
       },
       {
         title: <FormattedMessage id="action" />,
-        width: '13%',
+        width: '15%',
         align: 'center',
         render: (_, record) => {
           return (
             <div>
-              <Button onClick={() => this.handleAction('EDIT', record)}>
+              <Button style={styles.btn} type="primary" onClick={() => this.handleAction('EDIT', record)}>
                 <FormattedMessage id="edit" />
               </Button>
-              <Button type="error" onClick={() => this.handleAction('DELETE', record)}>
+              <Button style={styles.btn} type="danger" onClick={() => this.handleAction('DELETE', record)}>
                 <FormattedMessage id="delete" />
               </Button>
             </div>

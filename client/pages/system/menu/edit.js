@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Modal, Input, Select, Button, notification } from 'antd';
+import { Form, Modal, Input, Select, notification } from 'antd';
 import MenuAPI from '@/api/menu';
 import { injectIntl } from 'react-intl';
 
@@ -22,13 +22,6 @@ class MenuEdit extends React.Component {
     super();
     this.state = { filter: [] };
   }
-
-  // componentDidMount() {
-  //   const { id } = this.props.match.params;
-  //   MenuAPI.detail(id).then(data => {
-  //     this.props.form.setFieldsValue(data);
-  //   });
-  // }
 
   handleSearch(value) {
     const { lang, languages } = this.props;
@@ -52,7 +45,6 @@ class MenuEdit extends React.Component {
           message: intl.formatMessage({ id: 'editSuccess' }),
         });
         onSubmit && onSubmit(getFieldsValue());
-        // this.props.history.goBack();
       })
       .catch(err => {
         console.log('err=>' + err);
@@ -64,7 +56,6 @@ class MenuEdit extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const {
       title,
-      visible,
       onCancel,
       intl: { formatMessage },
     } = this.props;
@@ -109,7 +100,7 @@ class MenuEdit extends React.Component {
       <Modal
         okText={formatMessage({ id: 'submit' })}
         title={title}
-        visible={visible}
+        visible
         onCancel={onCancel}
         onOk={this.onSubmit.bind(this)}
       >
