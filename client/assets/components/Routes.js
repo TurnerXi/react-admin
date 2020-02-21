@@ -15,7 +15,6 @@ export default function Routes(props = { routes: [], titleSuffix: '' }) {
           const Component = resolveComponent(item.component);
           return (
             <Route
-              exact
               key={item.path || item.title}
               path={item.path}
               render={p => (

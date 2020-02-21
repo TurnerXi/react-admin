@@ -13,12 +13,19 @@ router.get('/tree', async ctx => {
     }
   });
 
-  ctx.body = data
-    .filter(item => item.pid === 0)
-    .map(item => {
-      item.children = map[item.id];
-      return item;
-    });
+  const roots = data.filter(item => item.pid === 0);
+
+  function recursive(parents) {
+    for (let i = 0; i < parents.length; i++) {
+      const item = parents[i];
+      if (map[item.id]) {
+        item.children = recursive(map[item.id]);
+      }
+    }
+    return parents;
+  }
+
+  ctx.body = recursive(roots);
 });
 
 router.get('/', async ctx => {
