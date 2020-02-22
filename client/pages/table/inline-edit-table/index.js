@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import moment from 'moment';
 import ArticleAPI from '@/api/article';
 import { Popconfirm, Button, Table, Card, Form, Rate, Input } from 'antd';
 import update from 'immutability-helper';
@@ -44,12 +45,21 @@ function EditableCell({ children, record, title, inputType, dataIndex, editing, 
 
 function EditableTable({ title, form }) {
   const [data, setData] = useState([]);
+  const [{ page, limit, total }, setPageData] = useState({
+    page: 1,
+    limit: 20,
+    total: 20,
+  });
   const [editingKey, setEditingKey] = useState('');
   useEffect(() => {
-    ArticleAPI.list().then(data => {
-      setData(data.map(item => ({ ...item, key: item.id })));
+    ArticleAPI.list({ page, limit }).then(result => {
+      const { data, total, page, limit } = result;
+      setData(
+        data.map(item => ({ ...item, timestamp: moment(item.timestamp).format('YYYY-MM-DD hh:mm:ss'), key: item.id }))
+      );
+      setPageData({ total, page, limit });
     });
-  }, []);
+  }, [page, limit]);
 
   const save = (form, key) => {
     form.validateFields((err, formData) => {
@@ -72,12 +82,17 @@ function EditableTable({ title, form }) {
     });
   };
 
-  const cancel = key => {
+  const cancel = () => {
     setEditingKey('');
   };
 
   const edit = key => {
     setEditingKey(key);
+  };
+
+  const onChangePage = (page, limit) => {
+    setPageData({ page, limit, total });
+    cancel();
   };
 
   const columns = [
@@ -87,9 +102,9 @@ function EditableTable({ title, form }) {
     {
       title: 'importance',
       dataIndex: 'importance',
-      width: '20%',
+      width: '15%',
       render(text, record) {
-        return <Rate defaultValue={record.importance} disabled />;
+        return <Rate value={record.importance} count={record.importance} disabled />;
       },
     },
     {
@@ -120,7 +135,7 @@ function EditableTable({ title, form }) {
           dataSource={data}
           columns={columns}
           components={{ body: { cell: EditableCell } }}
-          pagination={{ onChange: cancel }}
+          pagination={{ current: page, pageSize: limit, total, onChange: onChangePage }}
         />
       </EditableContext.Provider>
     </Card>

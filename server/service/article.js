@@ -1,10 +1,8 @@
-import { query } from '../common/db';
+import { query, queryPage } from '../common/db';
 
 const list = async params => {
-  let sql = 'select * from article order by ??  limit ?,?';
-  const page = params.page - 1 || 0;
-  const pageSize = params.limit || 20;
-  return await query(sql, [params.sort || 'id', page, pageSize]);
+  let sql = 'select * from article order by ??  ';
+  return await queryPage(sql, { page: params.page, limit: params.limit }, [params.sort || 'id']);
 };
 
 const get = async id => {
