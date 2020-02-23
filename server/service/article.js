@@ -1,7 +1,19 @@
 import { query, queryPage } from '../common/db';
 
 const list = async params => {
-  let sql = 'select * from article order by ??  ';
+  let condition = [];
+  if (params.title) {
+    condition.push(`title like '%${params.title}%'`);
+  }
+  if (params.importance) {
+    condition.push(`importance = ${params.importance}`);
+  }
+  if (params.status) {
+    condition.push(`status = '${params.status}'`);
+  }
+
+  const conditions = condition.length > 0 ? 'where ' + condition.join(' and ') : '';
+  let sql = `select * from article ${conditions} order by ?? `;
   return await queryPage(sql, { page: params.page, limit: params.limit }, [params.sort || 'id']);
 };
 
@@ -17,8 +29,9 @@ const create = async data => {
 const update = async data => {
   const template = Object.keys(data)
     .filter(key => key !== 'id' && data[key])
-    .map(key => `${key}=${data[key]}`);
-  await query('update article set ?? where id=?', [template, data.id]);
+    .map(key => `${key}='${data[key]}'`)
+    .join(',');
+  await query(`update article set ${template} where id=?`, [data.id]);
 };
 
 const remove = async id => {
