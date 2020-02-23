@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Form, Select, Rate, Input, DatePicker, notification } from 'antd';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import moment from 'moment';
 import ArticleAPI from '@/api/article';
+import { useState } from 'react';
 
 const formItemLayout = {
   labelCol: {
@@ -14,8 +16,21 @@ const formItemLayout = {
   },
 };
 
-export default Form.create({ name: 'addForm' })(
-  injectIntl(({ title, intl, form, onCancel, onSubmit }) => {
+export default Form.create({
+  name: 'addForm',
+  mapPropsToFields(props) {
+    const { data } = props;
+    const defaultValues = {};
+    data &&
+      Object.keys(data).forEach(key => {
+        defaultValues[key] = Form.createFormField({
+          value: key === 'timestamp' ? moment(data[key]) : data[key],
+        });
+      });
+    return defaultValues;
+  },
+})(
+  injectIntl(({ title, data, intl, form, onCancel, onSubmit }) => {
     const { formatMessage } = intl;
     const { getFieldDecorator } = form;
     const [submitting, setSubmitting] = useState(false);
@@ -26,22 +41,20 @@ export default Form.create({ name: 'addForm' })(
         }
         const values = {
           ...result,
-          author: 'admin',
-          pageviews: 0,
           timestamp: result.timestamp.format('YYYY-MM-DD HH:mm'),
         };
         setSubmitting(true);
-        ArticleAPI.create(values)
+        ArticleAPI.update(values)
           .then(() => {
             notification.success({
-              message: formatMessage({ id: 'addSuccess' }),
+              message: formatMessage({ id: 'editSuccess' }),
             });
-            onSubmit && onSubmit(values);
             setSubmitting(false);
+            onSubmit && onSubmit({ ...data, ...values });
           })
           .catch(e => {
-            console.error(e);
             setSubmitting(false);
+            console.error(e);
           });
       });
     };
@@ -58,10 +71,11 @@ export default Form.create({ name: 'addForm' })(
             <FormattedMessage id="submit" />
           </span>
         }
-        confirmLoading={submitting}
         maskClosable={false}
+        confirmLoading={submitting}
       >
         <Form {...formItemLayout}>
+          <Form.Item style={{ display: 'none' }}>{getFieldDecorator('id')(<Input />)}</Form.Item>
           <Form.Item label={formatMessage({ id: 'type' })}>
             {getFieldDecorator('type', {
               rules: [{ required: true, message: 'Please select type!' }],

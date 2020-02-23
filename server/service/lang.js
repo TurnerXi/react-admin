@@ -17,7 +17,8 @@ const get = async id => {
 };
 
 const create = async data => {
-  await query('insert into sys_lang set ?', data);
+  const result = await query('insert into sys_lang set ?', data);
+  return result.insertId;
 };
 
 const update = async data => {

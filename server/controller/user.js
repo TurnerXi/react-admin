@@ -12,8 +12,7 @@ router.get('/:id', async ctx => {
 });
 
 router.put('/', async ctx => {
-  await userService.create(ctx.request.body);
-  ctx.body = 'success';
+  ctx.body = await userService.create(ctx.request.body);
 });
 
 router.post('/', async ctx => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Rate, Empty } from 'antd';
+import { Modal, Form, Rate } from 'antd';
 import { injectIntl } from 'react-intl';
 
 const formItemLayout = {
