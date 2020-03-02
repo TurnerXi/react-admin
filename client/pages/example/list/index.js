@@ -3,9 +3,8 @@ import moment from 'moment';
 import ArticleAPI from '@/api/article';
 import { Button, Table, Card, Rate } from 'antd';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 
-export default function EditableTable({ title, history }) {
+export default function({ title, history }) {
   const [data, setData] = useState([]);
   const [{ page, limit, total }, setPageData] = useState({
     page: 1,

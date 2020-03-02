@@ -11,6 +11,9 @@ const list = async params => {
   if (params.status) {
     condition.push(`status = '${params.status}'`);
   }
+  if (params.type) {
+    condition.push(`type = '${params.type}'`);
+  }
 
   const conditions = condition.length > 0 ? 'where ' + condition.join(' and ') : '';
   let sql = `select * from article ${conditions} order by ?? `;
