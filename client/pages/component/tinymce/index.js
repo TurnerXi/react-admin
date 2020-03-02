@@ -83,11 +83,7 @@ class CustomTinymce extends Component {
         <Card title={this.props.title}>
           <Alert message={<FormattedMessage id="tinymceTips" />} type="info" showIcon />
           <br />
-          <Tinymce
-            initialValue={content}
-            lang={this.props.lang}
-            onChange={this.handleEditorChange}
-          />
+          <Tinymce defaultValue={content} lang={this.props.lang} onChange={this.handleEditorChange} />
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </Card>
       </I18nProvider>

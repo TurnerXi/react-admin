@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'antd';
+import { Alert, Card } from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import Menu1 from './menu1';
 import Menu2 from './menu2';
@@ -16,10 +16,17 @@ function NestedRouter() {
   );
 }
 
-export default function() {
+export default function({ title }) {
   return (
-    <div>
+    <Card title={title}>
+      <Alert
+        message="嵌套路由配置方式, 在菜单级路由配置组件, 在对应组件中添加子路由"
+        description="路由匹配规则中，若路由包含子级，则为非精确匹配路由，否则为精确匹配"
+        showIcon
+        type="info"
+      />
+      <br />
       <Alert message={<NestedRouter />} type="info" />
-    </div>
+    </Card>
   );
 }

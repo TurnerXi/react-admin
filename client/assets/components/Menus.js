@@ -9,13 +9,16 @@ export default function Menus(props = { menus: [] }) {
   return (
     <I18nProvider scope="route">
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
-        {menus.filter(item => !item.hidden).map(mapMenuItem)}
+        {menus.map(mapMenuItem)}
       </Menu>
     </I18nProvider>
   );
 }
 
 function mapMenuItem(item) {
+  if (item.hidden) {
+    return;
+  }
   if (item.children) {
     return (
       <Menu.SubMenu key={item.title} title={subMenuTitle(item)}>

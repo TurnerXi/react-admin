@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions';
 import { SYSTEM_INIT_ROUTES, SYSTEM_INIT_LANG, SYSTEM_SET_LOCALE } from '../actionTypes';
 
 const persistConfig = {
-  key: 'system',
+  key: 'system1',
   storage,
 };
 

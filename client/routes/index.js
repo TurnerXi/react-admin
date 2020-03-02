@@ -5,9 +5,9 @@ import Breadcrumb from '@/assets/components/Breadcrumb';
 import { constantRoutes } from './config';
 import { plainObjectArr } from '@/utils';
 
-export const MenuList = connect(state => ({
-  menus: [...constantRoutes, ...state.system.routes],
-}))(Menus);
+export const MenuList = connect(state => {
+  return { menus: [...constantRoutes, ...state.system.routes] };
+})(Menus);
 
 export const RouteList = connect(state => {
   const routes = [...constantRoutes, ...state.system.routes];

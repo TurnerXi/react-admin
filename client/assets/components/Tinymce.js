@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import 'tinymce';
+import { Spin } from 'antd';
 
 const initConfig = {
   height: 600,
@@ -30,8 +31,24 @@ const initConfig = {
   toolbar_drawer: 'sliding',
   contextmenu: 'link image imagetools table',
 };
-export default function Tinymce(props) {
-  const { initialValue, init, onChange, lang } = props;
-  const config = { ...initConfig, ...init, language: lang === 'zh' ? 'zh_CN' : '' };
-  return <Editor initialValue={initialValue} init={config} onEditorChange={onChange} />;
+export default class Tinymce extends Component {
+  onInit = (e, editor) => {
+    this.setState({ loading: false });
+  };
+
+  constructor() {
+    super();
+    this.state = { loading: true };
+  }
+
+  render() {
+    const { defaultValue, value, init, onChange, lang } = this.props;
+    const { loading } = this.state;
+    const config = { ...initConfig, ...init, language: lang === 'zh' ? 'zh_CN' : '' };
+    return (
+      <Spin spinning={loading} size="large" style={{ height: config.height, position: 'relative' }}>
+        <Editor initialValue={defaultValue || value} init={config} onEditorChange={onChange} onInit={this.onInit} />
+      </Spin>
+    );
+  }
 }

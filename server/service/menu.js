@@ -15,12 +15,13 @@ const create = async data => {
 };
 
 const update = async data => {
-  await query('update sys_menu set title=?,path=?,icon=?,component=?,sort=? where id = ?', [
+  await query('update sys_menu set title=?,path=?,icon=?,component=?,sort=?,hidden=? where id = ?', [
     data.title,
     data.path,
     data.icon,
     data.component,
     data.sort,
+    data.hidden,
     data.id,
   ]);
 };

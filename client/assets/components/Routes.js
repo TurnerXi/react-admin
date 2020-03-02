@@ -17,6 +17,7 @@ export default function Routes(props = { routes: [], titleSuffix: '' }) {
             <Route
               key={item.path || item.title}
               path={item.path}
+              exact={!item.children}
               render={p => (
                 <FormattedMessage id={item.title}>
                   {msg => <Component {...p} title={msg} titleSuffix={titleSuffix} />}

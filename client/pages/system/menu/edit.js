@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Modal, Input, Select, notification } from 'antd';
+import { Form, Modal, Input, Select, notification, Switch } from 'antd';
 import MenuAPI from '@/api/menu';
 import { injectIntl } from 'react-intl';
 
@@ -37,18 +37,23 @@ class MenuEdit extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { onSubmit, intl } = this.props;
-    const { getFieldsValue } = this.props.form;
-    MenuAPI.update(getFieldsValue())
-      .then(() => {
-        notification.success({
-          message: intl.formatMessage({ id: 'editSuccess' }),
+    const { onSubmit, intl, form } = this.props;
+    form.validateFields((error, values) => {
+      if (error) {
+        return;
+      }
+      const data = { ...values, hidden: values.hidden ? 1 : 0 };
+      MenuAPI.update(data)
+        .then(() => {
+          notification.success({
+            message: intl.formatMessage({ id: 'editSuccess' }),
+          });
+          onSubmit && onSubmit(data);
+        })
+        .catch(err => {
+          console.log('err=>' + err);
         });
-        onSubmit && onSubmit(getFieldsValue());
-      })
-      .catch(err => {
-        console.log('err=>' + err);
-      });
+    });
   }
 
   render() {
@@ -95,7 +100,15 @@ class MenuEdit extends React.Component {
         options: { rules: [{ required: true, message: 'Username is required!' }] },
         component: <Input />,
       },
+      hidden: {
+        label: formatMessage({ id: 'isHidden' }),
+        options: {
+          valuePropName: 'checked',
+        },
+        component: <Switch />,
+      },
     };
+
     return (
       <Modal
         okText={formatMessage({ id: 'submit' })}
@@ -133,7 +146,7 @@ export default connect(mapStateToProps)(
       const defaultValues = {};
       Object.keys(data).forEach(key => {
         defaultValues[key] = Form.createFormField({
-          value: data[key],
+          value: key === 'hidden' ? !!data[key] : data[key],
         });
       });
       return defaultValues;

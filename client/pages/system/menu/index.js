@@ -85,6 +85,13 @@ export default class Menu extends React.Component {
             />
             <Table.Column title={<FormattedMessage id="routePath" />} dataIndex="path" key="path" />
             <Table.Column
+              title={<FormattedMessage id="isHidden" />}
+              align="center"
+              render={(text, record) => {
+                return record.hidden ? '是' : '否';
+              }}
+            />
+            <Table.Column
               align="center"
               width="20%"
               title={<FormattedMessage id="action" />}
